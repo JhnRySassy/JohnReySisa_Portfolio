@@ -17,6 +17,7 @@ export class DesignerCursor implements Disposable {
   private frame!: HTMLDivElement;
   private tag!: HTMLSpanElement;
   private ptr!: HTMLDivElement;
+  private name!: HTMLSpanElement;
   private canvas!: HTMLCanvasElement;
   private ctx!: CanvasRenderingContext2D;
   private mouse = { x: -200, y: -200 };
@@ -34,6 +35,7 @@ export class DesignerCursor implements Disposable {
   init(): void {
     if (!this.enabled || this.root) return;
     this.build();
+    document.documentElement.classList.add('dc-on');
     addEventListener('pointermove', this.onMove, { passive: true });
     addEventListener('pointerover', this.onOver, { passive: true });
     addEventListener('pointerdown', this.onDown);
@@ -53,6 +55,7 @@ export class DesignerCursor implements Disposable {
     document.documentElement.removeEventListener('pointerleave', this.onLeave);
     this.root?.remove();
     this.root = undefined;
+    document.documentElement.classList.remove('dc-on');
   }
 
   private build(): void {
@@ -62,8 +65,8 @@ export class DesignerCursor implements Disposable {
     root.innerHTML =
       '<canvas class="dc-path"></canvas>' +
       '<div class="dc-frame"><i></i><i></i><i></i><i></i><span class="dc-size"></span></div>' +
-      '<div class="dc-ptr"><svg width="22" viewBox="0 0 24 24"><path d="M3 2l7 19 3-8 8-3z" fill="currentColor" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>' +
-      `<span class="dc-name">${this.label}</span></div>`;
+      '<div class="dc-ptr"><svg width="22" viewBox="0 0 24 24"><path d="M3 2l7 19 3-8 8-3z" fill="currentColor" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg></div>' +
+      `<span class="dc-name">${this.label}</span>`;
     document.body.appendChild(root);
     this.root = root;
     this.canvas = root.querySelector('canvas')!;
@@ -71,6 +74,7 @@ export class DesignerCursor implements Disposable {
     this.frame = root.querySelector('.dc-frame')!;
     this.tag = root.querySelector('.dc-size')!;
     this.ptr = root.querySelector('.dc-ptr')!;
+    this.name = root.querySelector('.dc-name')!;
   }
 
   private onMove = (e: PointerEvent): void => {
@@ -108,7 +112,8 @@ export class DesignerCursor implements Disposable {
 
     this.lag.x = lerp(this.lag.x, this.mouse.x, 0.12);
     this.lag.y = lerp(this.lag.y, this.mouse.y, 0.12);
-    this.ptr.style.transform = `translate(${this.lag.x + 14}px,${this.lag.y + 18}px)`;
+    this.ptr.style.transform = `translate(${this.mouse.x}px,${this.mouse.y}px)`;
+    this.name.style.transform = `translate(${this.lag.x + 16}px,${this.lag.y + 22}px)`;
     this.drawPath();
     this.raf = requestAnimationFrame(this.tick);
   };
