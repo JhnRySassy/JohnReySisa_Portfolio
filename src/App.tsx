@@ -1,18 +1,24 @@
-import { useEffect } from 'react';
-import type { Disposable } from './core/Observable';
-import { services } from './core/services';
-import { useObservable } from './hooks';
-import { Footer, Header } from './components/Chrome';
-import { Preloader } from './components/Preloader';
-import { HomePage } from './components/Home';
-import { AboutPage, AuraCaseStudyPage, CaseStudyPage, ContactCta, WorksPage } from './components/Pages';
+import { useEffect } from "react";
+import type { Disposable } from "./core/Observable";
+import { services } from "./core/services";
+import { useObservable } from "./hooks";
+import { Footer, Header } from "./components/Chrome";
+import { Preloader } from "./components/Preloader";
+import { HomePage } from "./components/Home";
+import {
+  AboutPage,
+  AuraCaseStudyPage,
+  CaseStudyPage,
+  ContactCta,
+  WorksPage,
+} from "./components/Pages";
 
 const TITLES = {
-  home: 'John Rey Sisa | UX/UI Designer',
-  about: 'About | John Rey Sisa',
-  works: 'Works | John Rey Sisa',
-  wexdata: 'WExData case study | John Rey Sisa',
-  aura: 'Aura & Essence case study | John Rey Sisa',
+  home: "John Rey Sisa | UX/UI Designer",
+  about: "About | John Rey Sisa",
+  works: "Works | John Rey Sisa",
+  wexdata: "WExData case study | John Rey Sisa",
+  aura: "Aura & Essence case study | John Rey Sisa",
 } as const;
 
 export default function App() {
@@ -30,7 +36,10 @@ export default function App() {
     services.intro.whenEntered(() => services.reveal.scan());
     const id = requestAnimationFrame(() => {
       const el = route.anchor ? document.getElementById(route.anchor) : null;
-      if (el) services.scroller.scrollTo(el.getBoundingClientRect().top + scrollY - 84);
+      if (el)
+        services.scroller.scrollTo(
+          el.getBoundingClientRect().top + scrollY - 84,
+        );
       else services.scroller.jump(0);
     });
     return () => cancelAnimationFrame(id);
@@ -41,11 +50,11 @@ export default function App() {
       <Preloader />
       <Header />
       <main id="top">
-        {route.view === 'home' && <HomePage />}
-        {route.view === 'about' && <AboutPage />}
-        {route.view === 'works' && <WorksPage />}
-        {route.view === 'wexdata' && <CaseStudyPage />}
-        {route.view === 'aura' && <AuraCaseStudyPage />}
+        {route.view === "home" && <HomePage />}
+        {route.view === "about" && <AboutPage />}
+        {route.view === "works" && <WorksPage />}
+        {route.view === "wexdata" && <CaseStudyPage />}
+        {route.view === "aura" && <AuraCaseStudyPage />}
         <ContactCta />
       </main>
       <Footer />

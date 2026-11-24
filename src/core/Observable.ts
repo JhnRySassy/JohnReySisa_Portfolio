@@ -10,10 +10,14 @@ export interface Disposable {
 export abstract class Observable<T> {
   private listeners = new Set<Listener>();
   constructor(protected state: T) {}
-  get value(): T { return this.state; }
+  get value(): T {
+    return this.state;
+  }
   subscribe = (l: Listener): (() => void) => {
     this.listeners.add(l);
-    return () => { this.listeners.delete(l); };
+    return () => {
+      this.listeners.delete(l);
+    };
   };
   protected set(next: T): void {
     this.state = next;
