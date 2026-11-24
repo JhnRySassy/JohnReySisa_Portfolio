@@ -38,3 +38,10 @@ export class Project extends Entity {
   ) { super(id); }
   get href(): string { return `#${this.id}`; }
 }
+
+export class TimelineEvent extends Entity {
+  constructor(id: string, readonly when: string, readonly title: string, readonly body: string) { super(id); }
+}
+export class Strength extends Entity {
+  constructor(id: string, readonly title: string, readonly body: string) { super(id); }
+}

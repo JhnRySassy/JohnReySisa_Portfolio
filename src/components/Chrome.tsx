@@ -10,33 +10,42 @@ export function Header() {
   useObservable(services.theme);
   const [open, setOpen] = useState(false);
   const [progress, setProgress] = useState(0);
-  const active = route.view === 'wexdata' ? 'works' : route.view;
+  const [scrolled, setScrolled] = useState(false);
+  const active = route.view === 'wexdata' || route.view === 'aura' ? 'works' : route.view;
+  const [first, ...rest] = profile.fullName.split(' ');
+  const last = rest.pop();
 
   useEffect(() => { setOpen(false); }, [route.key]);
   useEffect(() => {
     const f = () => {
       const h = document.documentElement.scrollHeight - innerHeight;
       setProgress(h > 0 ? scrollY / h : 0);
+      setScrolled(scrollY > 8);
     };
+    f();
     addEventListener('scroll', f, { passive: true });
     return () => removeEventListener('scroll', f);
   }, []);
 
   return (
-    <header>
+    <header className={scrolled ? 'scrolled' : ''}>
       <div className="wrap hd">
-        <a className="logo d" href="#home">{profile.fullName}</a>
-        <nav aria-label="Main">
+        <a className="logo" href="#home"><b>{[first, ...rest].join(' ')}</b> {last}</a>
+        <nav className="pillnav" aria-label="Main">
           {NAV.map(([id, label]) => <a key={id} href={`#${id}`} className={active === id ? 'on' : ''}>{label}</a>)}
         </nav>
-        <a className="btn s" href={profile.cvLink}>Request CV</a>
-        <button className="ic mb" aria-expanded={open} aria-label={open ? 'Close menu' : 'Open menu'} onClick={() => setOpen(!open)}>
-          <svg viewBox="0 0 24 24"><line className="l1" x1="4" y1="8" x2="20" y2="8" /><line className="l2" x1="4" y1="16" x2="20" y2="16" /></svg>
-        </button>
-        <button className="ic" aria-label="Switch between light and dark mode" onClick={() => services.theme.toggle()}>
-          <svg className="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" /></svg>
-          <svg className="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" /></svg>
-        </button>
+        <div className="hr">
+          <a className="btn s" href={profile.cvLink}>Request CV
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M7 17L17 7M8 7h9v9" /></svg>
+          </a>
+          <button className="ic mb" aria-expanded={open} aria-label={open ? 'Close menu' : 'Open menu'} onClick={() => setOpen(!open)}>
+            <svg viewBox="0 0 24 24"><line className="l1" x1="4" y1="8" x2="20" y2="8" /><line className="l2" x1="4" y1="16" x2="20" y2="16" /></svg>
+          </button>
+          <button className="ic" aria-label="Switch between light and dark mode" onClick={() => services.theme.toggle()}>
+            <svg className="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" /></svg>
+            <svg className="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" /></svg>
+          </button>
+        </div>
       </div>
       <div className="bar" style={{ transform: `scaleX(${progress})` }} />
       {open && (

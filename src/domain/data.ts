@@ -1,4 +1,4 @@
-import { Certificate, Decision, Principle, ProcessStep, Profile, Project, SkillGroup } from './models';
+import { Certificate, Decision, Principle, ProcessStep, Profile, Project, SkillGroup, Strength, TimelineEvent } from './models';
 import { QuickReply } from '../core/ChatEngine';
 
 export const profile = new Profile('John Rey Sisa', 'UX/UI designer', 'johnreysisa1@gmail.com', 'https://www.facebook.com/jhnrysisa/', 'Philippines');
@@ -68,4 +68,53 @@ export const replies = [
   new QuickReply('Which tools do you use?', 'Figma first, plus Framer and Sketch. I also work in HTML, CSS, JavaScript, TypeScript, and React, with PostgreSQL and Supabase on the data side, so what I design can actually be built.'),
   new QuickReply('Are you open to work?', 'Yes, I\u2019m open to UX/UI design roles. Ask for my CV and I\u2019ll send it over.', { label: 'Request my CV', href: profile.cvLink }),
   new QuickReply('How can I reach you?', 'Email is best. You can write to me directly at the bottom of this page.', { label: 'Get in touch', href: '#contact' }),
+];
+
+/* ---------- About page ---------- */
+export const story = [
+  'I\u2019m John Rey Sisa, a UX/UI designer from the Philippines. I turn complex workflows like logistics platforms, internal tools, and dashboards into products that feel obvious to use.',
+  'I design in Figma and Framer, and I work in HTML, CSS, JavaScript, TypeScript, and React, so what I design is made with development in mind.',
+  'I believe design is a process, and collaboration makes it meaningful.',
+];
+export const timeline = [
+  new TimelineEvent('t1', '2024', 'Google UX Design Professional Certificate', 'Completed seven courses covering research, wireframing, prototyping, testing, and portfolio building.'),
+  new TimelineEvent('t2', 'January 2025', 'Started on WExData', 'UI/UX designer on the internal logistics platform for WExpress, restructuring navigation and building a shared design system.'),
+  new TimelineEvent('t3', '2025', 'UX+ Conference 2025', 'Built a concept event website for speakers, schedules, and sessions.'),
+  new TimelineEvent('t4', '2026', 'UX+AI Conference 2026', 'Attended at SMX Convention Center Manila on AI in UX and product design.'),
+];
+export const strengths = [
+  new Strength('s1', 'UX research and flows', 'Audits, stakeholder feedback, and user flows that turn messy requirements into a clear structure.'),
+  new Strength('s2', 'UI and design systems', 'Consistent components and patterns that make large products feel predictable.'),
+  new Strength('s3', 'Design to code', 'I work in HTML, CSS, JavaScript, TypeScript, and React, so designs are built with development in mind.'),
+];
+export const workStyle = [
+  ['Start with the problem, not the screen', 'I define the user need and the business goal first, so every design decision has something to be checked against.'],
+  ['Design with developers in mind', 'I think in components and states, which makes handoff smoother and the result closer to the design.'],
+  ['Write decisions down', 'I document why, not just what, so stakeholders can follow the reasoning.'],
+  ['Welcome feedback early', 'Rough work in front of real people beats polished work made in a vacuum.'],
+];
+export const learning = [
+  new Strength('l1', 'TypeScript', 'Type-safe front-end code for products built on design systems.'),
+  new Strength('l2', 'The MERN stack', 'Express, MongoDB, and React, to understand the full path from interface to data.'),
+  new Strength('l3', 'QA automation', 'Playwright with JavaScript, to test the flows I design.'),
+];
+
+/* ---------- Aura & Essence case study ---------- */
+export const aura = new Project('aura', 'Aura & Essence', 'Fragrance storefront and admin',
+  'A branded online storefront and admin dashboard for my own fragrance business, designed around how the shop really operates: no shipping, several bottle sizes per scent, and clear profit tracking.',
+  ['UX design', 'UI design', 'E-commerce', 'Admin dashboard'],
+  { Type: 'Personal venture', Role: 'Founder and designer', Platform: 'Web storefront and admin', Scope: 'Storefront UX/UI, cart and checkout, admin dashboard', Status: 'Live' });
+export const AURA_URL = 'https://aura-essence-website.vercel.app/';
+export const auraDecisions = [
+  new Decision('a1', 'Mood first', 'A fragrance can\u2019t be smelled online, so the first screen has to carry the feeling of the brand.', 'I replaced the homepage hero with a cinematic one built on the brand\u2019s own product photos, and shortened the page so visitors reach the scents faster.'),
+  new Decision('a2', 'App-like checkout', 'A long, form-heavy cart makes people hesitate.', 'I redesigned the cart and checkout to feel like an app: clear steps, fewer distractions, and a faster path to done.'),
+  new Decision('a3', 'No shipping noise', 'The shop doesn\u2019t ship orders, yet the cart still showed shipping fees and free-shipping progress.', 'I removed both, so what customers see matches how the business actually works.'),
+  new Decision('a4', 'Sizes without re-entry', 'Adding a new bottle size meant re-entering all of a scent\u2019s information.', 'I restructured products so a 20ml size can be added to each scent without duplicating its details, alongside the existing 50ml.'),
+  new Decision('a5', 'True profit', 'Revenue alone doesn\u2019t show whether the business is really earning.', 'I added expense tracking for packaging, ads, and shipping, so the admin shows true net profit.'),
+  new Decision('a6', 'Trust and polish', 'First-time buyers of a small brand need reassurance.', 'I added trust elements, a better scent popup, a loading screen, a custom 404, and a social preview so the brand holds up wherever it\u2019s shared.'),
+];
+export const auraReflections = [
+  ['Design for the real business', 'The best change was removing things that didn\u2019t match how the shop works, like shipping fees.'],
+  ['Admin UX matters too', 'The admin is where the owner spends their time, so it deserves the same care as the storefront.'],
+  ['Trust is a design problem', 'Small details like a clean 404, a loading screen, and a good share preview make a small brand feel dependable.'],
 ];

@@ -4,13 +4,14 @@ import { services } from './core/services';
 import { useObservable } from './hooks';
 import { Footer, Header } from './components/Chrome';
 import { HomePage } from './components/Home';
-import { AboutPage, CaseStudyPage, ContactCta, WorksPage } from './components/Pages';
+import { AboutPage, AuraCaseStudyPage, CaseStudyPage, ContactCta, WorksPage } from './components/Pages';
 
 const TITLES = {
   home: 'John Rey Sisa | UX/UI Designer',
   about: 'About | John Rey Sisa',
   works: 'Works | John Rey Sisa',
   wexdata: 'WExData case study | John Rey Sisa',
+  aura: 'Aura & Essence case study | John Rey Sisa',
 } as const;
 
 export default function App() {
@@ -41,6 +42,7 @@ export default function App() {
         {route.view === 'about' && <AboutPage />}
         {route.view === 'works' && <WorksPage />}
         {route.view === 'wexdata' && <CaseStudyPage />}
+        {route.view === 'aura' && <AuraCaseStudyPage />}
         <ContactCta />
       </main>
       <Footer />

@@ -18,9 +18,9 @@ export function MockWindow() {
   );
 }
 
-export function Ph({ label }: { label: string }) {
+export function Ph({ label, sq }: { label: string; sq?: boolean }) {
   return (
-    <div className="ph" data-rv>
+    <div className={`ph${sq ? ' sq' : ''}`} data-rv>
       <div>
         <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3" /><circle cx="9" cy="10" r="1.6" /><path d="M4 18l5-5 4 4 3-3 4 4" /></svg>
         Placeholder<br />{label}
