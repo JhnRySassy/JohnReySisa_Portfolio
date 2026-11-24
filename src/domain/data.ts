@@ -121,7 +121,7 @@ export const auraReflections = [
 ];
 
 /* ---------- WExData: flows, walkthrough video, screens ---------- */
-export const WEX = '/case-studies/wexdata/';
+export const WEX = `${import.meta.env.BASE_URL}case-studies/wexdata/`; // follows the Vite `base`, so it also works on GitHub Pages
 export const flows = [
   new Flow('f1', 'Sign-in', '2 checks', 'captcha and email OTP before the dashboard',
     'From opening the app to the dashboard, with the captcha and OTP checks.',
