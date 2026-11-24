@@ -3,6 +3,7 @@ import type { Disposable } from './core/Observable';
 import { services } from './core/services';
 import { useObservable } from './hooks';
 import { Footer, Header } from './components/Chrome';
+import { Preloader } from './components/Preloader';
 import { HomePage } from './components/Home';
 import { AboutPage, AuraCaseStudyPage, CaseStudyPage, ContactCta, WorksPage } from './components/Pages';
 
@@ -25,7 +26,8 @@ export default function App() {
 
   useEffect(() => {
     document.title = TITLES[route.view];
-    services.reveal.scan();
+    services.reveal.scan(false);
+    services.intro.whenEntered(() => services.reveal.scan());
     const id = requestAnimationFrame(() => {
       const el = route.anchor ? document.getElementById(route.anchor) : null;
       if (el) services.scroller.scrollTo(el.getBoundingClientRect().top + scrollY - 84);
@@ -36,6 +38,7 @@ export default function App() {
 
   return (
     <>
+      <Preloader />
       <Header />
       <main id="top">
         {route.view === 'home' && <HomePage />}

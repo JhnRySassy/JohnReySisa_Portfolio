@@ -49,6 +49,7 @@ export class SmoothScroller implements Disposable {
     this.raf = requestAnimationFrame(this.tick);
   }
   private onWheel = (e: WheelEvent): void => {
+    if (document.documentElement.classList.contains('intro-lock')) { e.preventDefault(); return; }
     if (e.ctrlKey || (e.target as Element).closest('[data-native-scroll]')) return;
     e.preventDefault();
     const unit = e.deltaMode === 1 ? 32 : 1;
