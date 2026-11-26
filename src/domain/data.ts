@@ -103,16 +103,17 @@ export const learning = [
 export const aura = new Project('aura', 'Aura & Essence', 'Fragrance storefront and admin',
   'A branded online storefront and admin dashboard for my own fragrance business, designed around how the shop really operates: no shipping, several bottle sizes per scent, and clear profit tracking.',
   ['UX design', 'UI design', 'E-commerce', 'Admin dashboard'],
-  { Type: 'Personal venture', Role: 'Founder and designer', Platform: 'Web storefront and admin', Scope: 'Storefront UX/UI, cart and checkout, admin dashboard', Status: 'Live' });
+  { Type: 'Personal venture', Role: 'Founder and designer', Platform: 'Web storefront and admin', Scope: 'Storefront UX/UI, cart and checkout, admin dashboard', Stack: 'HTML, CSS, JavaScript, Supabase', Status: 'Live' });
 export const AURA_URL = 'https://aura-essence-website.vercel.app/';
 export const auraDecisions = [
-  new Decision('a1', 'Mood first', 'A fragrance can\u2019t be smelled online, so the first screen has to carry the feeling of the brand.', 'I replaced the homepage hero with a cinematic one built on the brand\u2019s own product photos, and shortened the page so visitors reach the scents faster.'),
-  new Decision('a2', 'App-like checkout', 'A long, form-heavy cart makes people hesitate.', 'I redesigned the cart and checkout to feel like an app: clear steps, fewer distractions, and a faster path to done.'),
-  new Decision('a3', 'No shipping noise', 'The shop doesn\u2019t ship orders, yet the cart still showed shipping fees and free-shipping progress.', 'I removed both, so what customers see matches how the business actually works.'),
-  new Decision('a4', 'Sizes without re-entry', 'Adding a new bottle size meant re-entering all of a scent\u2019s information.', 'I restructured products so a 20ml size can be added to each scent without duplicating its details, alongside the existing 50ml.'),
-  new Decision('a5', 'True profit', 'Revenue alone doesn\u2019t show whether the business is really earning.', 'I added expense tracking for packaging, ads, and shipping, so the admin shows true net profit.'),
-  new Decision('a6', 'Trust and polish', 'First-time buyers of a small brand need reassurance.', 'I added trust elements, a better scent popup, a loading screen, a custom 404, and a social preview so the brand holds up wherever it\u2019s shared.'),
-  new Decision('a7', 'Phone first', 'A small brand is mostly discovered and shopped on a phone.', 'I designed the phone screens first, then scaled the layout up to desktop, so the small screen is never an afterthought.'),
+  new Decision('a1', 'Mood first', 'A fragrance can\u2019t be smelled online, so the first screen has to carry the feeling of the brand.', 'I built the hero around the brand\u2019s own product photography on a dark, gold-accented page, with the name set large in Cormorant Garamond, so the mood lands before anyone reads a word.'),
+  new Decision('a2', 'Three-step checkout', 'A long, form-heavy cart makes people hesitate.', 'I turned checkout into a three-step bag sheet (Bag, Details, Review) with a running order summary, so people always know where they are and what they\u2019ll pay.'),
+  new Decision('a3', 'No shipping noise', 'Orders are handed over by delivery or meetup, yet a courier-style cart would show shipping fees and free-shipping progress.', 'I left both out and asked for a \u201cDelivery / Meetup location\u201d instead, with cash on delivery, meetup, or GCash, so the bag matches how the business really sells.'),
+  new Decision('a4', 'Sizes without re-entry', 'Adding a new bottle size meant re-entering all of a scent\u2019s information.', 'I restructured products so a 20ml bottle is its own row linked to its 50ml scent. Photo, notes, and description sync automatically, and only price, stock, and cost belong to each size.'),
+  new Decision('a5', 'True profit', 'Revenue alone doesn\u2019t show whether the business is really earning.', 'I added expense tracking (packaging, ads, shipping, other), so the admin reports net profit as sales minus the cost of bottles sold minus expenses.'),
+  new Decision('a6', 'Trust where buyers hesitate', 'First-time buyers of a small brand need reassurance.', 'I added reviews in customers\u2019 own words, an FAQ, a welcome offer, and order tracking with an Order ID issued instantly, so the brand feels dependable.'),
+  new Decision('a7', 'Help people choose', 'Choosing a perfume you can\u2019t smell is the hardest part of buying one.', 'I added a scent finder and filters by scent profile and weather, so shoppers can narrow down by how they want to feel.'),
+  new Decision('a8', 'Phone first', 'A small brand is mostly discovered and shopped on a phone.', 'I designed the phone screens first, then scaled the layout up to desktop, so the small screen is never an afterthought.'),
 ];
 export const auraReflections = [
   ['Design for the real business', 'The best change was removing things that didn\u2019t match how the shop works, like shipping fees.'],
@@ -160,11 +161,37 @@ export const wexNext = [
   'Document the shared Manage pattern as a component library developers can build from.',
 ];
 /* ---------- Aura & Essence: brand + next steps. Fill brandColors / brandFonts with the real values. ---------- */
-export const brandColors: BrandColor[] = [];
-export const brandFonts: BrandFont[] = [];
+export const brandColors = [
+  new BrandColor('c1', 'Ink', '#0e0d0c', 'Page background, dark theme'),
+  new BrandColor('c2', 'Parchment', '#ede7da', 'Text, dark theme'),
+  new BrandColor('c3', 'Brass', '#b08d4f', 'Gold lines'),
+  new BrandColor('c4', 'Bright brass', '#d4b26a', 'Gold text and buttons'),
+  new BrandColor('c5', 'Cream', '#f6f1e8', 'Page background, light theme'),
+  new BrandColor('c6', 'Deep brass', '#8a682a', 'Gold text, light theme'),
+];
+export const brandFonts = [
+  new BrandFont('f1', 'Display', 'Cormorant Garamond'),
+  new BrandFont('f2', 'Body', 'Jost'),
+];
 export const auraNext = [
-  'Add real customer reviews to strengthen trust at the point of decision.',
+  'Automate GCash payment confirmation. Today customers send a screenshot on Messenger and it\u2019s confirmed by hand.',
+  'Add courier shipping and card payments if the business grows beyond meetups and cash on delivery.',
   'Track which scents get opened versus bought, then use it to improve the scent popup.',
-  'Run a mobile performance pass, starting with the cinematic hero.',
-  'Add a scent finder to help first-time buyers choose.',
+  'Run a mobile performance pass on the hero image and film.',
+];
+/* ---------- Aura & Essence: real screens from the site ---------- */
+export const AURA_ASSETS = `${import.meta.env.BASE_URL}case-studies/aura/`;
+export const AURA_LOGOS = { gold: AURA_ASSETS + 'ae-logo-gold.svg', black: AURA_ASSETS + 'ae-logo-black.svg' };
+export const auraHero = new Shot('ah', 'Storefront', 'The homepage: photography first, with the brand name set large.', AURA_ASSETS + 'storefront-hero.webp');
+export const auraShots = [
+  new Shot('as1', 'Two lines, one house', 'The black cap line for him and the gold cap line for her.', AURA_ASSETS + 'collection.webp'),
+  new Shot('as2', 'Shop a line', 'Search, scent-profile and weather filters, and favorites.', AURA_ASSETS + 'product-grid.webp'),
+  new Shot('as3', 'Scent popup', 'Notes, longevity, projection and strength at a glance, and add to bag.', AURA_ASSETS + 'scent-popup.webp'),
+  new Shot('as4', 'The bag', 'Bag, Details, Review, with a running order summary and picks you may also like.', AURA_ASSETS + 'bag.webp'),
+  new Shot('as5', 'Light theme', 'The same brand on cream, switched from the header.', AURA_ASSETS + 'light-theme.webp'),
+];
+export const auraPhones = [
+  new Shot('ap1', 'Home', 'The hero at phone size.', AURA_ASSETS + 'phone-home.webp'),
+  new Shot('ap2', 'Scent popup', 'Details without leaving the page.', AURA_ASSETS + 'phone-popup.webp'),
+  new Shot('ap3', 'Bag', 'The three-step bag on a small screen.', AURA_ASSETS + 'phone-bag.webp'),
 ];

@@ -68,7 +68,7 @@ export function PhonePh({ label }: { label: string }) {
 }
 
 /** Full-screen viewer for wide diagrams: scroll to pan, Esc or click outside to close. */
-export function Lightbox({ src, alt, onClose }: { src: string; alt: string; onClose: () => void }) {
+export function Lightbox({ src, alt, onClose, narrow }: { src: string; alt: string; onClose: () => void; narrow?: boolean }) {
   useEffect(() => {
     const key = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
     addEventListener('keydown', key);
@@ -76,7 +76,7 @@ export function Lightbox({ src, alt, onClose }: { src: string; alt: string; onCl
     return () => { removeEventListener('keydown', key); document.documentElement.classList.remove('lb-open'); };
   }, [onClose]);
   return (
-    <div className="lb" role="dialog" aria-modal="true" aria-label={alt} data-native-scroll onClick={onClose}>
+    <div className={`lb${narrow ? ' lb-n' : ''}`} role="dialog" aria-modal="true" aria-label={alt} data-native-scroll onClick={onClose}>
       <button className="lb-x" aria-label="Close" onClick={onClose}>&times;</button>
       <div className="lb-s" onClick={(e) => e.stopPropagation()}><img src={src} alt={alt} /></div>
     </div>

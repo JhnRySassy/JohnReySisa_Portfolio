@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import {
-  AURA_URL, WEX, aura, auraDecisions, auraNext, auraReflections, brandColors, brandFonts,
+  AURA_LOGOS, AURA_URL, WEX, aura, auraDecisions, auraHero, auraNext, auraPhones, auraReflections, auraShots, brandColors, brandFonts,
   chapters, decisions, flows, profile, reflections, research, shots, wexNext, wexdata,
 } from '../domain/data';
-import { DecisionTabs, Head, Lightbox, Note, Ph, PhonePh } from './Shared';
+import type { Shot } from '../domain/models';
+import { DecisionTabs, Head, Lightbox, Note } from './Shared';
 
 /* ---------------------------------------------------------------- shared template */
 interface ShellProps {
@@ -112,17 +113,17 @@ function FlowGallery() {
   );
 }
 
-function ScreenGallery() {
+function ScreenGallery({ items, one }: { items: Shot[]; one?: boolean }) {
   const [open, setOpen] = useState<number | null>(null);
   return (
     <>
-      <div className="sh">{shots.map((s, n) => (
+      <div className={`sh${one ? ' one' : ''}`}>{items.map((s, n) => (
         <figure key={s.id} data-rv>
           <button onClick={() => setOpen(n)} aria-label={`Enlarge ${s.title}`}><img src={s.src} alt={`${s.title} screen`} loading="lazy" /></button>
           <figcaption><b>{s.title}.</b> {s.note}</figcaption>
         </figure>
       ))}</div>
-      {open !== null && <Lightbox src={shots[open].src} alt={`${shots[open].title} screen`} onClose={() => setOpen(null)} />}
+      {open !== null && <Lightbox src={items[open].src} alt={`${items[open].title} screen`} onClose={() => setOpen(null)} />}
     </>
   );
 }
@@ -172,7 +173,7 @@ export function CaseStudyPage() {
 
       <section id="cs-screens"><div className="wrap">
         <Head k="Screens" title="The design, up close." />
-        <ScreenGallery />
+        <ScreenGallery items={shots} />
       </div></section>
 
       <section id="cs-out"><div className="wrap">
@@ -190,27 +191,42 @@ export function CaseStudyPage() {
 }
 
 /* ---------------------------------------------------------------- Aura & Essence pieces */
+function PhoneShots() {
+  const [open, setOpen] = useState<number | null>(null);
+  return (
+    <>
+      <div className="phs">{auraPhones.map((s, n) => (
+        <figure key={s.id} data-rv>
+          <button onClick={() => setOpen(n)} aria-label={`Enlarge ${s.title} on a phone`}><img src={s.src} alt={`${s.title} on a phone`} loading="lazy" /></button>
+          <figcaption><b>{s.title}.</b> {s.note}</figcaption>
+        </figure>
+      ))}</div>
+      {open !== null && <Lightbox narrow src={auraPhones[open].src} alt={`${auraPhones[open].title} on a phone`} onClose={() => setOpen(null)} />}
+    </>
+  );
+}
+
 function BrandBoard() {
-  const labels = ['Primary', 'Secondary', 'Accent', 'Neutral'];
   return (
     <div className="brd">
-      <Ph label="Logo and wordmark" />
       <div className="card" data-rv>
-        <h3>Colors</h3>
-        <div className="swg">
-          {brandColors.length > 0
-            ? brandColors.map((c) => <div key={c.id} className="sw-i"><i style={{ background: c.hex }} /><div><b>{c.name}</b>{c.hex} &middot; {c.role}</div></div>)
-            : labels.map((l) => <div key={l} className="sw-i e"><i /><div><b>{l}</b>#&ndash;&ndash;&ndash;&ndash;&ndash;&ndash;</div></div>)}
+        <h3>Logo</h3>
+        <div className="lgp">
+          <div className="lg-d"><img src={AURA_LOGOS.gold} alt="Aura & Essence logo in gold" /></div>
+          <div className="lg-l"><img src={AURA_LOGOS.black} alt="Aura & Essence logo in black" /></div>
         </div>
       </div>
       <div className="card" data-rv>
+        <h3>Colors</h3>
+        <div className="swg">{brandColors.map((c) => <div key={c.id} className="sw-i"><i style={{ background: c.hex }} /><div><b>{c.name}</b>{c.hex}<br />{c.role}</div></div>)}</div>
+      </div>
+      <div className="card" data-rv>
         <h3>Typography</h3>
-        {(brandFonts.length > 0 ? brandFonts.map((f) => [f.role, f.family] as const) : [['Display typeface', 'Add the display font'], ['Body typeface', 'Add the body font']] as const)
-          .map(([role, family]) => <div key={role} className="ty-i"><b style={{ fontFamily: brandFonts.length > 0 ? family : undefined }}>Aa</b><span>{role}<br />{family}</span></div>)}
+        {brandFonts.map((f) => <div key={f.id} className="ty-i"><b style={{ fontFamily: `'${f.family}', serif`, fontWeight: 500 }}>Aa</b><span>{f.role}<br />{f.family}</span></div>)}
       </div>
       <div className="card why" data-rv>
         <h3>Why these choices</h3>
-        <p>The look is premium and calm. Product photography leads, and the interface stays quiet around it so the scents can set the mood.</p>
+        <p>Near-black ink and brass gold feel like a perfume house after dark. Cormorant Garamond brings editorial elegance to the big moments, while Jost keeps small interface text clean. A cream and deep-gold light theme carries the same identity into daylight.</p>
       </div>
     </div>
   );
@@ -218,18 +234,19 @@ function BrandBoard() {
 
 /** Admin mock built in code. Every figure is sample data, so no real business numbers are shown. */
 function AdminMock() {
-  const rows: ReadonlyArray<readonly [string, string, number]> = [['Packaging', '₱6,000', 28], ['Ads', '₱11,500', 53], ['Shipping', '₱4,000', 19]];
+  const rows: ReadonlyArray<readonly [string, string, number]> = [['Packaging', '₱2,000', 27], ['Ads', '₱4,500', 60], ['Shipping', '₱1,000', 13]];
   return (
     <div className="am">
       <div className="card" data-rv>
         <h3>Profit overview<span className="tag">Sample data</span></h3>
-        <div className="am-s"><div>Revenue<b>₱48,000</b></div><div>Expenses<b>₱21,500</b></div><div className="g">Net profit<b>₱26,500</b></div></div>
+        <div className="am-s"><div>Sales<b>₱48,000</b></div><div>Cost of bottles sold<b>₱14,000</b></div><div>Expenses<b>₱7,500</b></div><div className="g">Net profit<b>₱26,500</b></div></div>
         <div className="eb">{rows.map(([n, v, w]) => <div key={n}><span>{n}</span><i style={{ '--w': `${w}%` } as React.CSSProperties} /><span>{v}</span></div>)}</div>
+        <p className="csp" style={{ margin: '14px 0 0', fontSize: '.9rem' }}>Net profit = sales &minus; cost of bottles sold &minus; expenses.</p>
       </div>
       <div className="card" data-rv>
         <h3>Sizes per scent<span className="tag">Sample data</span></h3>
-        <p className="csp" style={{ margin: '8px 0 0' }}>Scent details are entered once. Each size is just a variant.</p>
-        <div className="vr"><div><span>50ml</span><b>12 in stock</b></div><div><span>20ml</span><b>8 in stock</b></div><div className="add">+ Add a size</div></div>
+        <p className="csp" style={{ margin: '8px 0 0' }}>Photo, notes, and description are entered once on the 50ml. A 20ml bottle links to it, and only price, stock, and cost belong to each size.</p>
+        <div className="vr"><div><span>50ml &middot; the scent</span><b>12 in stock</b></div><div><span>20ml &middot; linked size</span><b>8 in stock</b></div><div className="add">+ Add a size</div></div>
       </div>
     </div>
   );
@@ -242,10 +259,10 @@ export function AuraCaseStudyPage() {
       title="Aura & Essence: a fragrance store designed around how the shop really works"
       summary={aura.summary}
       meta={aura.meta}
-      hero={<><div className="cta" style={{ marginBottom: 22 }}><a className="btn" href={AURA_URL} target="_blank" rel="noopener noreferrer">Visit the live site</a></div><Ph label="Hero: the Aura & Essence storefront" /></>}
+      hero={<><div className="cta" style={{ marginBottom: 22 }}><a className="btn" href={AURA_URL} target="_blank" rel="noopener noreferrer">Visit the live site</a></div><ScreenGallery items={[auraHero]} one /></>}
       glance={[
         ['The challenge', 'Sell a product people can’t smell online, and run the business without spreadsheets.'],
-        ['What I did', 'I designed a mood-first storefront, an app-like checkout, and an admin that tracks sizes and profit.'],
+        ['What I did', 'I designed a mood-first storefront, a three-step checkout, and an admin that tracks sizes, stock, and profit.'],
         ['Where it stands', 'Live, and has already sold bottles to real customers.'],
       ]}
       overview={{
@@ -261,14 +278,14 @@ export function AuraCaseStudyPage() {
       <section id="as-feat"><div className="wrap">
         <Head k="What I built" title="Three surfaces, one brand." />
         <div className="tl3">
-          <div className="card" data-rv><h3>Storefront</h3><ul><li>Cinematic hero with the brand’s own photos</li><li>Shorter homepage that reaches the scents faster</li><li>Scent popup that shows more, faster</li></ul></div>
-          <div className="card" data-rv><h3>Cart and checkout</h3><ul><li>App-like flow with clear steps</li><li>No shipping fee or free-shipping bar</li><li>Trust elements at the moment of decision</li></ul></div>
-          <div className="card" data-rv><h3>Admin</h3><ul><li>Sizes per scent without re-entering details</li><li>Expense tracking and true net profit</li><li>Notifications that can be trusted</li></ul></div>
+          <div className="card" data-rv><h3>Storefront</h3><ul><li>Photography-led hero on a dark, gold-accented page</li><li>Scent finder and shop-by-weather filters</li><li>Light and dark themes</li></ul></div>
+          <div className="card" data-rv><h3>Bag and checkout</h3><ul><li>Three steps: Bag, Details, Review</li><li>Delivery or meetup; cash on delivery, meetup, or GCash</li><li>Order ID with built-in order tracking</li></ul></div>
+          <div className="card" data-rv><h3>Admin</h3><ul><li>Dashboard with revenue, top products, and low stock</li><li>Inventory, restock history, and sizes per scent</li><li>Reports: profit per product, expenses, monthly summary</li></ul></div>
         </div>
       </div></section>
 
       <section id="as-dec"><div className="wrap">
-        <Head k="Problems and decisions" title="Seven decisions, and why." />
+        <Head k="Problems and decisions" title="Eight decisions, and why." />
         <DecisionTabs items={auraDecisions} />
       </div></section>
 
@@ -280,18 +297,18 @@ export function AuraCaseStudyPage() {
       <section id="as-mobile"><div className="wrap">
         <Head k="Mobile first" title="Designed for the phone, then scaled up." />
         <p className="csp" data-rv>I started every screen at phone size. If it worked there, scaling up to desktop was the easy part.</p>
-        <div className="phones"><PhonePh label="Storefront home" /><PhonePh label="Scent popup" /><PhonePh label="Cart and checkout" /></div>
+        <PhoneShots />
       </div></section>
 
       <section id="as-admin"><div className="wrap">
         <Head k="Admin" title="An admin that answers the owner’s questions." />
-        <p className="csp" data-rv>What’s selling, what it costs, and what’s left over. The admin shows all three at a glance. Figures below are sample data.</p>
+        <p className="csp" data-rv>What’s selling, what it costs, and what’s left over. The admin shows all three at a glance. Figures below are sample data, so no real numbers are shown.</p>
         <AdminMock />
       </div></section>
 
       <section id="as-scr"><div className="wrap">
         <Head k="Desktop" title="The same brand on a larger screen." />
-        <div className="g2"><Ph label="Storefront homepage" /><Ph label="Cart and checkout" /></div>
+        <ScreenGallery items={auraShots} />
       </div></section>
     </CaseStudyShell>
   );
